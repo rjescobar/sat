@@ -17,7 +17,7 @@
             Tipo de error:
             <asp:Label ID="lblExceptionType" runat="server" Text="Label"></asp:Label>
             <br/>
-            Mensaje:
+            Mensajes:
             <asp:Label ID="lblMessage" runat="server" Text="Label"></asp:Label>
             <br/>
 
