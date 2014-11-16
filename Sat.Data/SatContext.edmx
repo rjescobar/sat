@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SatModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="SatModelStoreContainer">
+          <EntitySet Name="Rol" EntityType="SatModel.Store.Rol" store:Type="Tables" Schema="Configuracion" />
+          <EntitySet Name="RolUsuario" EntityType="SatModel.Store.RolUsuario" store:Type="Tables" Schema="Configuracion" />
+          <EntitySet Name="Usuario" EntityType="SatModel.Store.Usuario" store:Type="Tables" Schema="Configuracion" />
+          <EntitySet Name="Empleados" EntityType="SatModel.Store.Empleados" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Solicitud" EntityType="SatModel.Store.Solicitud" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_RolUsuario_Rol" Association="SatModel.Store.FK_RolUsuario_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="RolUsuario" EntitySet="RolUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolUsuario_Usuario" Association="SatModel.Store.FK_RolUsuario_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="RolUsuario" EntitySet="RolUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Solicitud_Empleados" Association="SatModel.Store.FK_Solicitud_Empleados">
+            <End Role="Empleados" EntitySet="Empleados" />
+            <End Role="Solicitud" EntitySet="Solicitud" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IDRol" />
+          </Key>
+          <Property Name="IDRol" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="NombreRol" Type="varchar" Nullable="false" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="RolUsuario">
+          <Key>
+            <PropertyRef Name="IDRol" />
+            <PropertyRef Name="IDUsuario" />
+          </Key>
+          <Property Name="IDRol" Type="int" Nullable="false" />
+          <Property Name="IDUsuario" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IDUsuario" />
+          </Key>
+          <Property Name="IDUsuario" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Usuario" Type="varchar" Nullable="false" MaxLength="150" />
+          <Property Name="Clave" Type="varchar" Nullable="false" MaxLength="256" />
+          <Property Name="Nombre" Type="varchar" MaxLength="256" />
+          <Property Name="Email" Type="varchar" MaxLength="150" />
+          <Property Name="UltimoCambioClave" Type="datetime" />
+          <Property Name="FechaUltimoError" Type="datetime" />
+          <Property Name="ErroresAcceso" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Empleados">
+          <Key>
+            <PropertyRef Name="cod_emp" />
+          </Key>
+          <Property Name="cod_emp" Type="decimal" Nullable="false" Precision="10" StoreGeneratedPattern="Identity" />
+          <Property Name="nombres" Type="nvarchar" MaxLength="50" />
+          <Property Name="apellidos" Type="nvarchar" MaxLength="50" />
+          <Property Name="cedula" Type="nvarchar" MaxLength="50" />
+          <Property Name="Activo" Type="int" Nullable="false" />
+          <Property Name="Cargo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Ubicacion" Type="nvarchar" MaxLength="50" />
+          <Property Name="cod_edificio" Type="decimal" Precision="2" />
+          <Property Name="Edificio" Type="nvarchar" MaxLength="200" />
+          <Property Name="piso" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="cod_ubic" Type="nvarchar" MaxLength="15" />
+          <Property Name="cod_carg" Type="nvarchar" MaxLength="6" />
+          <Property Name="e_mail" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Solicitud">
+          <Key>
+            <PropertyRef Name="IdSolicitud" />
+          </Key>
+          <Property Name="IdSolicitud" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Cod_emp" Type="decimal" Precision="10" />
+          <Property Name="Solicitud" Type="nvarchar(max)" />
+          <Property Name="FechaCreacion" Type="date" />
+          <Property Name="HoraCreacion" Type="nvarchar" MaxLength="8" />
+          <Property Name="IdResponsable" Type="decimal" Precision="10" />
+          <Property Name="IdTecnico" Type="decimal" Precision="10" />
+          <Property Name="Observaciones" Type="nvarchar(max)" />
+          <Property Name="FechaAsignacion" Type="date" />
+          <Property Name="HoraAsignacion" Type="nvarchar" MaxLength="8" />
+          <Property Name="Descripcion" Type="nvarchar(max)" />
+          <Property Name="Cod_Equipo" Type="bigint" />
+          <Property Name="FechaElaborado" Type="date" />
+          <Property Name="HolaElaborado" Type="nvarchar" MaxLength="8" />
+          <Property Name="Evaluacion1" Type="nvarchar" MaxLength="10" />
+          <Property Name="Evaluacion2" Type="nvarchar" MaxLength="10" />
+          <Property Name="Evaluacion3" Type="nvarchar" MaxLength="10" />
+          <Property Name="FechaEvaluacion" Type="date" />
+          <Property Name="HoraEvaluacion" Type="nvarchar" MaxLength="8" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <Association Name="FK_RolUsuario_Rol">
+          <End Role="Rol" Type="SatModel.Store.Rol" Multiplicity="1" />
+          <End Role="RolUsuario" Type="SatModel.Store.RolUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="IDRol" />
+            </Principal>
+            <Dependent Role="RolUsuario">
+              <PropertyRef Name="IDRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolUsuario_Usuario">
+          <End Role="Usuario" Type="SatModel.Store.Usuario" Multiplicity="1" />
+          <End Role="RolUsuario" Type="SatModel.Store.RolUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IDUsuario" />
+            </Principal>
+            <Dependent Role="RolUsuario">
+              <PropertyRef Name="IDUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Solicitud_Empleados">
+          <End Role="Empleados" Type="SatModel.Store.Empleados" Multiplicity="0..1" />
+          <End Role="Solicitud" Type="SatModel.Store.Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleados">
+              <PropertyRef Name="cod_emp" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="Cod_emp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SatModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AsistenciaTecnicaEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Solicitud" EntityType="SatModel.Solicitud" />
+          <EntitySet Name="Empleados" EntityType="SatModel.Empleados" />
+          <AssociationSet Name="FK_Solicitud_Empleados" Association="SatModel.FK_Solicitud_Empleados">
+            <End Role="Empleados" EntitySet="Empleados" />
+            <End Role="Solicitud" EntitySet="Solicitud" />
+          </AssociationSet>
+          <EntitySet Name="Rol" EntityType="SatModel.Rol" />
+          <EntitySet Name="Usuario" EntityType="SatModel.Usuario" />
+          <AssociationSet Name="RolUsuario" Association="SatModel.RolUsuario">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Solicitud">
+          <Key>
+            <PropertyRef Name="IdSolicitud" />
+          </Key>
+          <Property Name="IdSolicitud" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Cod_emp" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Solicitud1" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="0" />
+          <Property Name="HoraCreacion" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
+          <Property Name="IdResponsable" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="IdTecnico" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="Observaciones" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="FechaAsignacion" Type="DateTime" Precision="0" />
+          <Property Name="HoraAsignacion" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Cod_Equipo" Type="Int64" />
+          <Property Name="FechaElaborado" Type="DateTime" Precision="0" />
+          <Property Name="HolaElaborado" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
+          <Property Name="Evaluacion1" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
+          <Property Name="Evaluacion2" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
+          <Property Name="Evaluacion3" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
+          <Property Name="FechaEvaluacion" Type="DateTime" Precision="0" />
+          <Property Name="HoraEvaluacion" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
+          <Property Name="Status" Type="Int32" />
+          <NavigationProperty Name="Empleados" Relationship="SatModel.FK_Solicitud_Empleados" FromRole="Solicitud" ToRole="Empleados" />
+        </EntityType>
+        <EntityType Name="Empleados">
+          <Key>
+            <PropertyRef Name="cod_emp" />
+          </Key>
+          <Property Type="Decimal" Name="cod_emp" Nullable="false" Precision="10" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="nombres" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="apellidos" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="cedula" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Activo" Nullable="false" />
+          <Property Type="String" Name="Cargo" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Ubicacion" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="cod_edificio" Precision="2" Scale="0" />
+          <Property Type="String" Name="Edificio" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="piso" Precision="9" Scale="2" />
+          <Property Type="String" Name="cod_ubic" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="cod_carg" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="e_mail" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Solicitud" Relationship="SatModel.FK_Solicitud_Empleados" FromRole="Empleados" ToRole="Solicitud" />
+        </EntityType>
+        <Association Name="FK_Solicitud_Empleados">
+          <End Type="SatModel.Empleados" Role="Empleados" Multiplicity="0..1" />
+          <End Type="SatModel.Solicitud" Role="Solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleados">
+              <PropertyRef Name="cod_emp" />
+            </Principal>
+            <Dependent Role="Solicitud">
+              <PropertyRef Name="Cod_emp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IDRol" />
+          </Key>
+          <Property Type="Int32" Name="IDRol" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="NombreRol" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Usuario" Relationship="SatModel.RolUsuario" FromRole="Rol" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IDUsuario" />
+          </Key>
+          <Property Type="Int32" Name="IDUsuario" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Usuario1" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Clave" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Nombre" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Email" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="UltimoCambioClave" Precision="3" />
+          <Property Type="DateTime" Name="FechaUltimoError" Precision="3" />
+          <Property Type="Int32" Name="ErroresAcceso" Nullable="false" />
+          <NavigationProperty Name="Rol" Relationship="SatModel.RolUsuario" FromRole="Usuario" ToRole="Rol" />
+        </EntityType>
+        <Association Name="RolUsuario">
+          <End Type="SatModel.Rol" Role="Rol" Multiplicity="*" />
+          <End Type="SatModel.Usuario" Role="Usuario" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SatModelStoreContainer" CdmEntityContainer="AsistenciaTecnicaEntities">
+          <EntitySetMapping Name="Solicitud">
+            <EntityTypeMapping TypeName="SatModel.Solicitud">
+              <MappingFragment StoreEntitySet="Solicitud">
+                <ScalarProperty Name="IdSolicitud" ColumnName="IdSolicitud" />
+                <ScalarProperty Name="Cod_emp" ColumnName="Cod_emp" />
+                <ScalarProperty Name="Solicitud1" ColumnName="Solicitud" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="HoraCreacion" ColumnName="HoraCreacion" />
+                <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
+                <ScalarProperty Name="IdTecnico" ColumnName="IdTecnico" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="FechaAsignacion" ColumnName="FechaAsignacion" />
+                <ScalarProperty Name="HoraAsignacion" ColumnName="HoraAsignacion" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Cod_Equipo" ColumnName="Cod_Equipo" />
+                <ScalarProperty Name="FechaElaborado" ColumnName="FechaElaborado" />
+                <ScalarProperty Name="HolaElaborado" ColumnName="HolaElaborado" />
+                <ScalarProperty Name="Evaluacion1" ColumnName="Evaluacion1" />
+                <ScalarProperty Name="Evaluacion2" ColumnName="Evaluacion2" />
+                <ScalarProperty Name="Evaluacion3" ColumnName="Evaluacion3" />
+                <ScalarProperty Name="FechaEvaluacion" ColumnName="FechaEvaluacion" />
+                <ScalarProperty Name="HoraEvaluacion" ColumnName="HoraEvaluacion" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empleados">
+            <EntityTypeMapping TypeName="SatModel.Empleados">
+              <MappingFragment StoreEntitySet="Empleados">
+                <ScalarProperty Name="e_mail" ColumnName="e_mail" />
+                <ScalarProperty Name="cod_carg" ColumnName="cod_carg" />
+                <ScalarProperty Name="cod_ubic" ColumnName="cod_ubic" />
+                <ScalarProperty Name="piso" ColumnName="piso" />
+                <ScalarProperty Name="Edificio" ColumnName="Edificio" />
+                <ScalarProperty Name="cod_edificio" ColumnName="cod_edificio" />
+                <ScalarProperty Name="Ubicacion" ColumnName="Ubicacion" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="cedula" ColumnName="cedula" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="cod_emp" ColumnName="cod_emp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="SatModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="IDRol" ColumnName="IDRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="SatModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="ErroresAcceso" ColumnName="ErroresAcceso" />
+                <ScalarProperty Name="FechaUltimoError" ColumnName="FechaUltimoError" />
+                <ScalarProperty Name="UltimoCambioClave" ColumnName="UltimoCambioClave" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Usuario1" ColumnName="Usuario" />
+                <ScalarProperty Name="IDUsuario" ColumnName="IDUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="RolUsuario" TypeName="SatModel.RolUsuario" StoreEntitySet="RolUsuario">
+            <EndProperty Name="Usuario">
+              <ScalarProperty Name="IDUsuario" ColumnName="IDUsuario" />
+            </EndProperty>
+            <EndProperty Name="Rol">
+              <ScalarProperty Name="IDRol" ColumnName="IDRol" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
